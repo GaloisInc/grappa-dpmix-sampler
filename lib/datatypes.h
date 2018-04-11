@@ -15,8 +15,8 @@ struct var_length_array {
 
 /* An "atomic" (continuous or discrete) distribution */
 struct atomic_dist {
-  /* Return the log PDF for the current values (including the one that was
-     sampled from the current distribution) */
+  /* Return the log PDF for the current values that this PDF can "see"
+     (including the one that was sampled from the current distribution) */
   double (*pdf)(union value vs[]);
 
   /* Compute the gradient of the log PDF for the current values, and accumulate
