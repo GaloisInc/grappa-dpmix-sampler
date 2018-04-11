@@ -10,7 +10,7 @@ union value {
 /* A variable-length array of data elements */
 struct var_length_array {
   unsigned int length;
-  union value *elems;
+  union value elems[];
 };
 
 /* An "atomic" (continuous or discrete) distribution */
@@ -48,7 +48,14 @@ enum dist_type {
 };
 
 struct distribution {
+
+  /* The tag that indicates what type of distribution this is */
   enum dist_type tp;
+
+  /* The size says how many values (not bytes) are taken up by this type */
+  unsigned int size;
+
+  /* The actual distribution itself */
   union {
     struct atomic_dist atomic;
     struct tuple_dist tuple;
@@ -58,6 +65,9 @@ struct distribution {
 };
 
 struct dpmix_distribution {
+  unsigned int num_param_doubles;
   struct distribution *param_dist;
+
+  unsigned int data_width;
   struct distribution *data_dist;
 };
